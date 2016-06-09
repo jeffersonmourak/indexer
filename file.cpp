@@ -1,16 +1,19 @@
+#include <cstdlib>
 #include <iostream>
+#include <map>
+#include <algorithm>
+
 #include <fstream>
 #include <string>
 #include <vector>
-#include <map>
 #include <sstream>
 
-#include "table.h"
 #include "file.h"
 
-#define LIMIT 100
-
 using namespace std;
+
+map <string, Word> words;
+vector <string> keys;
 
 vector <string> split(string str, char delimiter){
 	vector<string> internal;
@@ -28,7 +31,6 @@ vector <string> split(string str, char delimiter){
 void mapFile(string filename){
 	ifstream file(filename);
 
-	Word table[LIMIT];
 
 	vector<string>::iterator it;
 
@@ -40,36 +42,59 @@ void mapFile(string filename){
 		_line = split(line, ' ');
 
 		for(it=_line.begin(); it < _line.end(); it++ ){
-			addWord(*it, table, filename, lNumber);
+			addWord(*it, filename, lNumber);
 		}
 
 		lNumber++;
 
 	}
 
-	printMap(table);
+	printMap();
 
 }
 
-void printMap(Word *_w){
+void addWord(std::string word, std::string file, int line){
+	
+	transform(word.begin(), word.end(),word.begin(), ::toupper);
+
+	bool notExits = words.find(word) == words.end();
+
+	if(notExits){
+		keys.push_back(word);
+		Item *i = new Item();
+		i->file = file;
+		i->line = (line + 1);
+		i->next = NULL;
+		words[word].items = i;
+		words[word].last = i;
+	}
+	else{
+		Item *i = new Item();
+		i->file = file;
+		i->line = (line + 1);
+		i->next = NULL;
+		words[word].last->next = i;
+		words[word].last = i;
+	}
+
+}
+
+void printMap(){
 	ofstream logFile;
 	logFile.open("log.txt");
-	for(int i = 0; i < LIMIT; i++){
-		logFile << i << endl;
-		if(_w[i].word == "")
-			continue;
+	
 
-		Word *w = &_w[i];
-		while(w != NULL){
-			Item *i = w->items;
-			logFile << w->word << ":";
-			while(i != NULL){
-				logFile << i->file << "," << i->line << ";";
-				i = i->next;
-			}
-			logFile << endl;
-			w = w->next;
+	vector<string>::iterator it;
+
+	for(it=keys.begin(); it < keys.end(); it++ ){
+		string key = *it;
+		Item *i = words[key].items;
+		logFile << *it << ":";
+		while(i != NULL){
+			logFile << i->file << "," << i-> line << ";";
+			i = i->next;
 		}
+		logFile << endl;
 	}
 	logFile.close();
 }

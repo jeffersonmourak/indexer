@@ -1,6 +1,5 @@
 #include <iostream>
 #include "file.h"
-#include "table.h"
 
 using namespace std;
 
