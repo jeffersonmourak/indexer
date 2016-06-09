@@ -45,9 +45,9 @@ void mapFile(string filename){
 
 		lNumber++;
 
-		printMap(table);
-
 	}
+
+	printMap(table);
 
 }
 
@@ -55,17 +55,19 @@ void printMap(Word *_w){
 	ofstream logFile;
 	logFile.open("log.txt");
 	for(int i = 0; i < LIMIT; i++){
+		logFile << i << endl;
 		if(_w[i].word == "")
 			continue;
 
 		Word *w = &_w[i];
 		while(w != NULL){
 			Item *i = w->items;
-			logFile << "Word: " << w->word;
+			logFile << w->word << ":";
 			while(i != NULL){
-				logFile << " @ " << i->file << " in Line " << i->line << endl;
+				logFile << i->file << "," << i->line << ";";
 				i = i->next;
 			}
+			logFile << endl;
 			w = w->next;
 		}
 	}

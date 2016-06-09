@@ -12,6 +12,7 @@ struct Item{
 struct Word{
 	std::string word;
 	Item *items;
+	Item *last;
 	Word *next;
 };
 
