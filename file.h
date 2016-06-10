@@ -1,6 +1,12 @@
 #ifndef file_H
 #define file_H
 
+#include <cstdlib>
+#include <iostream>
+#include <map>
+
+using namespace std;
+
 struct Item{
 	std::string file;
 	int line;
@@ -12,9 +18,8 @@ struct Word{
 	Item *last;
 };
 
-void mapFile(std::string filename);
+map <string, Word> mapFile(std::string filename);
 void printMap();
-
 void addWord(std::string word, std::string file, int line);
-
+void loadMeta();
 #endif

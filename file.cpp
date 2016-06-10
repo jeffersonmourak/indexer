@@ -28,9 +28,33 @@ vector <string> split(string str, char delimiter){
 
 }
 
-void mapFile(string filename){
+void loadMeta(){
+	ifstream file("log.txt");
+	vector<string> _line;
+	string line;
+
+	vector<string>::iterator it;
+
+	while(getline(file, line)){
+		_line = split(line, ':');
+		string word = _line[0];
+		vector<string> wordData;
+		wordData = split(_line[1], ';');
+		for(it=wordData.begin(); it < wordData.end(); it++ ){
+			vector<string> fileData;
+			fileData = split(*it, ',');
+			string filename = fileData[0];
+			int line = stoi(fileData[1]) - 1;
+			addWord(word, filename, line);
+		}
+	}
+	file.close();
+}
+
+map <string, Word> mapFile(string filename){
 	ifstream file(filename);
 
+	loadMeta();
 
 	vector<string>::iterator it;
 
@@ -48,8 +72,11 @@ void mapFile(string filename){
 		lNumber++;
 
 	}
+	file.close();
 
 	printMap();
+
+	return words;
 
 }
 
