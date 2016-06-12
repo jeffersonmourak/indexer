@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <vector>
 
 using namespace std;
 
@@ -18,8 +19,33 @@ struct Word{
 	Item *last;
 };
 
-map <string, Word> mapFile(std::string filename);
-void printMap();
-void addWord(std::string word, std::string file, int line);
-void loadMeta();
+
+class Indexer{
+	private:
+		//variaveis
+		map <string, Word> words;
+		vector <string> keys;
+		vector <string> files;
+		
+		//funções
+		void addWord(std::string word, std::string file, int line);
+		vector <string> split(string str, char delimiter);
+		void addFile(string filename);
+		void unMapFile(string filename);
+		map <string, Word> mapFile(std::string filename);
+		
+		
+	public:
+		Indexer();
+		void printMap();
+		void loadMeta();
+		void indexFiles(vector<string> files);
+		void unIndexFiles(vector<string> files);
+		int isIndexed(string filename);
+		map <string, Word> getWords();
+		
+};
+
+
+
 #endif
