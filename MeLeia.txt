@@ -1,0 +1,10 @@
+Compilando:
+    g++ -o main search.cpp file.cpp main.cpp command.cpp -std=c++11
+
+Comandos
+    -i: Adiciona um ou mais arquivos na base de buscas
+    -r: remove um ou mais arquivos na base de buscas
+    -li: lista os arquivos adicionados por ordem de adição
+    -lt: lista os arquvios adicionados por ordem crescente de numero de palavras
+    -la: lista os arquivos adicionados por ordem alfabética
+    -bAND pesquisa UMA palavra na base de busca
