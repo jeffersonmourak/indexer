@@ -3,16 +3,18 @@
 #include <map>
 #include "file.h"
 #include "command.h"
+#include "search.h"
 #include "termcolor.hpp"
 
 using namespace std;
 
 int main(int argc, char const *argv[]) {
 	string parameter, value;
-	map <string, Word> data;
 	
 	Commands commands(argv, argc);
 	Indexer application;
+	Search search(application.getWords(), application.getFiles());
+	
 	
 	parameter = commands.getArgument();
 	
@@ -22,9 +24,19 @@ int main(int argc, char const *argv[]) {
 	else if(parameter == "-r"){
 		application.unIndexFiles(commands.getValues());
 	}
+	else if(parameter == "-li"){
+		application.listFiles();
+	}
+	else if(parameter == "-lt"){
+		application.listDec();
+	}
+	else if(parameter == "-la"){
+		application.listAlpha();
+	}
+	else if(parameter == "-bAND"){
+		search.find(commands.getValues()[0]);
+	}
 	
-	//data = application.mapFile("files/file-test-1.txt");
-	//data = application.mapFile("files/temer.txt");
 	
 	return 0;
 }

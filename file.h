@@ -9,7 +9,7 @@
 using namespace std;
 
 struct Item{
-	std::string file;
+	string file;
 	int line;
 	Item *next;
 };
@@ -19,21 +19,26 @@ struct Word{
 	Item *last;
 };
 
+struct File{
+	string filename;
+	int words;
+};
 
 class Indexer{
 	private:
 		//variaveis
 		map <string, Word> words;
 		vector <string> keys;
-		vector <string> files;
+		vector <File> files;
 		
 		//funções
 		void addWord(std::string word, std::string file, int line);
 		vector <string> split(string str, char delimiter);
-		void addFile(string filename);
+		void addFile(string filename, int wordsCount);
 		void unMapFile(string filename);
-		map <string, Word> mapFile(std::string filename);
-		
+		int mapFile(std::string filename);
+		void printFiles();
+		void loadFiles();
 		
 	public:
 		Indexer();
@@ -43,6 +48,10 @@ class Indexer{
 		void unIndexFiles(vector<string> files);
 		int isIndexed(string filename);
 		map <string, Word> getWords();
+		vector <File> getFiles();
+		void listFiles();
+		void listDec();
+		void listAlpha();
 		
 };
 
